@@ -32,41 +32,73 @@ ssh-copy-id slave2
 
 
 B. Install Hadoop & Spark
+
 1.Download and Extract:
+
 wget https://downloads.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz
 tar -xvzf hadoop-3.3.1.tar.gz
+
+
 wget https://downloads.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz
 tar -xvzf spark-3.2.1-bin-hadoop3.2.tgz
+
+
 2.Configure Environment Variables:
+
 Add to ~/.bashrc:
 
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
 export HADOOP_HOME=/path/to/hadoop-3.3.1
+
 export SPARK_HOME=/path/to/spark-3.2.1-bin-hadoop3.2
+
 export PATH=$PATH:$HADOOP_HOME/bin:$SPARK_HOME/bin
+
 C. Configure Spark & Hadoop
+
 1.Spark Config:
+
 oEdit $SPARK_HOME/conf/spark-env.sh:
+
 export SPARK_MASTER_HOST=<master-node-IP>
+
 export SPARK_WORKER_CORES=4
+
 export SPARK_WORKER_MEMORY=8g
+
 oUpdate $SPARK_HOME/conf/slaves:
+
 slave1
+
 slave2
+
 2.Hadoop Config:
+
 oCore-site.xml: Set HDFS URI.
+
 oHdfs-site.xml: Configure replication factor (2)
+
 D. Start the Cluster
+
 1.Launch Hadoop HDFS:
+
 hdfs namenode -format  # First-time setup
+
 start-dfs.sh
 
 
 2.Start Spark Cluster:
+
 $SPARK_HOME/sbin/start-master.sh
+
 $SPARK_HOME/sbin/start-workers.sh
+
 E. Verify Setup
+
 Spark UI: Access http://<master-IP>:8080 to view active workers.
+
+
 HDFS UI: Check http://<master-IP>:9870.
 
 
